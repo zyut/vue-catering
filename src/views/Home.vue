@@ -26,8 +26,8 @@
                 <van-tab title="已点菜单"></van-tab>
             </van-tabs>
           <div class="content-header">
-            <div>点餐</div>
-            <div>已点菜单</div>
+            <div class="menu menu-active" @click="topMenuChange">点餐</div>
+            <div class="menu">已点菜单</div>
           </div>
         </div>
     </div>
@@ -61,7 +61,8 @@ export default {
     methods: {
         onHeadLeft(){},
         onHeadRight(){},
-        onChange(){}
+        onChange(){},
+        topMenuChange(){}
     }
 }
 </script>
@@ -81,14 +82,33 @@ export default {
           .content-header{
             width: 100%;
             display: flex;
+            flex: 1;
             position: relative;
             justify-content: space-around;
             font-size: 14px;
             height: 45px;
             line-height: 45px;
             color: #7d7e80;
+            .menu-active{
+              font-weight: 500;
+              color: #323233;
+              position: relative;
+            }
+            .menu-active:after{
+              position: absolute;
+              content: " ";
+              z-index: 1;
+              width: 20px;
+              
+              left: calc(50% - 10px);
+              bottom: 0;
+              height: 3px;
+              border-radius: 3px;
+              background-color: #f44;
+            }
           }
           .content-header:after{
+            display: block;
             content: " ";
             top: 0;
             left: 0;
