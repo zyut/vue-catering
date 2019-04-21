@@ -1,139 +1,115 @@
 <template>
-  <div class="home">
-    <div class="head">
-      <van-nav-bar
-              title=""
-              left-text="返回"
-              right-text="按钮"
-              left-arrow
-              @click-left="onHeadLeft"
-              @click-right="onHeadRight">
-      </van-nav-bar>
-    </div>
-    <div class="content">
-        <div class="content-container">
-            <van-tabs v-model="activeTab" animated :line-width="20">
-                <van-tab title="点餐">
-                    <div class="order-container">
-                        <div class="order-left">
-                            <van-badge-group :active-key="activeMenu" @change="onChange">
-                                <van-badge v-for="(item, index) in menuList" :key="index" :title="item.name" :info="item.info" />
-                            </van-badge-group>
-                        </div>
-                        <div class="order-right">right</div>
-                    </div>
-                </van-tab>
-                <van-tab title="已点菜单"></van-tab>
-            </van-tabs>
-          <div class="content-header">
-            <div class="menu menu-active" @click="topMenuChange">点餐</div>
-            <div class="menu">已点菜单</div>
-          </div>
+    <div class="home">
+        <div class="head">
+            <van-nav-bar
+                    title=""
+                    left-text="返回"
+                    right-text="按钮"
+                    left-arrow
+                    @click-left="onHeadLeft"
+                    @click-right="onHeadRight">
+            </van-nav-bar>
         </div>
-    </div>
+        <div class="content">
+            <div class="content-container">
+                <div class="content-header">
+                    <div class="menu" :class="{'menu-active': activeTab === 'order'}" @click="topTabChange('order')">
+                        点餐
+                    </div>
+                    <div class="menu" :class="{'menu-active': activeTab === 'haveorder'}"
+                         @click="topTabChange('haveorder')">已点菜单
+                    </div>
+                </div>
+                <router-view/>
+                <!--已点菜单-->
+            </div>
+        </div>
 
-  </div>
+    </div>
 </template>
 
 <script>
-// @ is an alias to /src
+    // @ is an alias to /src
 
-export default {
-    name: 'home',
-    data() {
-        return{
-            activeTab: "",
-            activeMenu: "",
-            menuList: [
-                {
-                    id: 1,
-                    name: "菜单一",
-                    info: "3"
-                },
-                {
-                    id: 2,
-                    name: "菜单二",
-                    info: ""
-                },
-            ]
+    export default {
+        name: 'home',
+        data() {
+            return {
+                activeTab: "order",
+                menuContentList: [
+                    {
+                        id: 1,
+                        menuId: 1
+                    }
+                ]
+            }
+        },
+        methods: {
+            onHeadLeft() {
+            },
+            onHeadRight() {
+            },
+            topTabChange(menu) {
+                this.activeTab = menu;
+                this.$router.push(menu);
+            }
         }
-    },
-    methods: {
-        onHeadLeft(){},
-        onHeadRight(){},
-        onChange(){},
-        topMenuChange(){}
     }
-}
 </script>
 
 <style lang="less">
-  .home{
-    width: 100%;
-    height: 100%;
-    .head{}
-    .content{
-      width: 100%;
-      height: 100%;
-        .content-container{
-            text-align: left;
-            width: 100%;
-            height: 100%;
-          .content-header{
-            width: 100%;
-            display: flex;
-            flex: 1;
-            position: relative;
-            justify-content: space-around;
-            font-size: 14px;
-            height: 45px;
-            line-height: 45px;
-            color: #7d7e80;
-            .menu-active{
-              font-weight: 500;
-              color: #323233;
-              position: relative;
-            }
-            .menu-active:after{
-              position: absolute;
-              content: " ";
-              z-index: 1;
-              width: 20px;
-              
-              left: calc(50% - 10px);
-              bottom: 0;
-              height: 3px;
-              border-radius: 3px;
-              background-color: #f44;
-            }
-          }
-          .content-header:after{
-            display: block;
-            content: " ";
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            position: absolute;
-            border-width: 1px 0;
-            border-color: #ebedf0;
-            border-style: solid;
-          }
-            .order-container{
-                display: flex;
-                height: 100%;
-                .order-left{
-                    background-color: #f8f8f8;
-                    width: 6rem;
-                    height: 100%;
-                }
-                .order-right{
-                    width: 100%;
-                }
-            }
+    .home {
+        width: 100%;
+        height: 100%;
 
+        .head {
         }
-    }
 
-  }
+        .content {
+            width: 100%;
+            height: calc(100% - 46px);
+
+            .content-container {
+                text-align: left;
+                width: 100%;
+                height: 100%;
+
+                .content-header {
+                    width: 100%;
+                    display: flex;
+                    flex: 1;
+                    position: relative;
+                    justify-content: space-around;
+                    font-size: 14px;
+                    height: 45px;
+                    line-height: 45px;
+                    color: #7d7e80;
+                    border-width: 1px 0;
+                    border-color: #ebedf0;
+                    border-style: solid;
+
+                    .menu-active {
+                        font-weight: 500;
+                        color: #323233;
+                        position: relative;
+                    }
+
+                    .menu-active:after {
+                        position: absolute;
+                        content: " ";
+                        z-index: 1;
+                        width: 20px;
+                        left: calc(50% - 10px);
+                        bottom: 0;
+                        height: 3px;
+                        border-radius: 3px;
+                        background-color: #f44;
+                    }
+                }
+
+
+            }
+        }
+
+    }
 </style>

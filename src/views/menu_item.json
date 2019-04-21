@@ -1,0 +1,55 @@
+[
+  {
+    "class": "菜",
+    "classid": "asdfadf",
+    "items": [
+      {
+        "id": "asdfasd",
+        "name": "回锅肉",
+        "details": "美味的回锅肉,地道重庆菜",
+        "Img":"/as/ss/xx",
+        "status": 1,
+        "specs": [
+          {
+            "name": "小份",
+            "img": "/sss/xx/xd",
+            "details": "小份回锅肉适合一个人",
+            "unit": "份",
+            "price": 28,
+            "stock": 9999
+          },{
+            "name": "大份",
+            "img": "/sss/xx/xd",
+            "details": "满满一盘回锅肉",
+            "unit": "份",
+            "price": 48,
+            "stock": 9999
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "class": "汤",
+    "classid": "asdfadf",
+    "items": [
+      {
+        "id": "asdfasd",
+        "name": "鸡蛋汤",
+        "details": "美味的回锅肉,地道重庆菜",
+        "Img":"/as/ss/xx",
+        "status": 1,
+        "specs": [
+          {
+            "name": "小份",
+            "img": "/sss/xx/xd",
+            "details": "小份回锅肉适合一个人",
+            "unit": "份",
+            "price": 28,
+            "stock": 9999
+          }
+        ]
+      }
+    ]
+  }
+]
