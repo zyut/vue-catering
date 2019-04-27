@@ -7,7 +7,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/home',
       name: 'home',
       component: Home,
       children:[
@@ -17,11 +17,15 @@ export default new Router({
           component: () => import(/* webpackChunkName: "about" */ './views/Order.vue')
         },
         {
-          path: '/haveorder',
+          path: '/haveOrder',
           name: 'haveOrder',
           component: () => import(/* webpackChunkName: "about" */ './views/HaveOrder.vue')
         }
       ]
-    }
+    },
+      {
+        path: '/',
+        redirect: '/order'
+      }
   ]
 })

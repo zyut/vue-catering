@@ -2,7 +2,7 @@
     <div class="order-container">
         <div class="order-left">
             <van-badge-group :active-key="activeMenu" @change="onChangeMenu">
-                <van-badge v-for="(item, index) in menuleft" :key="index" :title="item.name" :info="item.number" />
+                <van-badge v-for="(item, index) in menuleft" :key="index" :title="item.class" :info="item.number" />
             </van-badge-group>
         </div>
         <div class="order-right">
@@ -15,7 +15,7 @@
                             :price="val.price"
                             :desc="val.details"
                             :title="val.name"
-                            :thumb="val.img"
+                            :thumb="'http://lyp256.cn' + val.img"
                             :origin-price="val.price"
                     >
                         <div slot="footer">
@@ -30,7 +30,7 @@
         <!--弹出框-->
         <van-actionsheet v-model="showDetail" title=" " class="goods">
             <div class="info-box">
-                <div class="info-left" :style="{backgroundImage: 'url(' + formGoods.img + ')', backgroundSize:'contain'}"></div>
+                <div class="info-left" :style="{backgroundImage: 'url(http://lyp256.cn' + formGoods.img + ')', backgroundSize:'contain'}"></div>
                 <div class="info-right">
                     <div class="info-name">{{formGoods.name}}</div>
                     <div class="info-detail">{{formGoods.details}}</div>
@@ -40,16 +40,18 @@
             <div class="info-item">
                 <div class="title">规格</div>
                 <div class="item-box">
-                    <div class="item-tag" :class="{'item-tag-active': formGoods.specsName === item.name}"
+                    <div class="item-tag" :class="{'item-tag-active': formGoods.item_spec_name === item.name}"
                          v-for="(item, index) in formGoods.specs" :key="index" @click="chooseSpecification(item, index)">{{item.name}}</div>
                 </div>
             </div>
-            <div class="submit-button" :class="{'submit-button-active': formGoods.specsName}" @click="onSubmit">选好了</div>
+            <div class="submit-button" :class="{'submit-button-active': formGoods.item_spec_name}" @click="onSubmit">选好了</div>
         </van-actionsheet>
     </div>
 </template>
 
 <script>
+    import { menuListApi, submitCar, carList } from "@/api/getData";
+
     export default {
         name: "Order",
         data() {
@@ -57,272 +59,8 @@
                 showDetail: false,
                 activeMenu: 0,
                 scrollList: [],
-                menuList: [
-                    {
-                        id: 1,
-                        name: "菜",
-                        info: 3
-                    },
-                    {
-                        id: 2,
-                        name: "汤",
-                        info: null
-                    },
-                    {
-                        id: 3,
-                        name: "菜单二",
-                        info: null
-                    },
-                    {
-                        id: 4,
-                        name: "菜单二",
-                        info: null
-                    },
-                    {
-                        id: 5,
-                        name: "菜单二",
-                        info: null
-                    },
-                    {
-                        id: 6,
-                        name: "菜单二",
-                        info: null
-                    },
-                    {
-                        id: 7,
-                        name: "菜单二",
-                        info: null
-                    },
-                    {
-                        id: 8,
-                        name: "菜单二",
-                        info: null
-                    },
-                    {
-                        id: 9,
-                        name: "菜单二",
-                        info: null
-                    },
-                    {
-                        id: 10,
-                        name: "菜单二",
-                        info: null
-                    },
-                    {
-                        id: 11,
-                        name: "菜单二",
-                        info: null
-                    },
-                    {
-                        id: 12,
-                        name: "菜单二",
-                        info: null
-                    },
-                ],
-                menuContentList:[
-                    {
-                        "class": "菜",
-                        "class_id": 1,
-                        "items": [
-                            {
-                                "id": "11",
-                                "name": "回锅肉1",
-                                "details": "美味的回锅肉,地道重庆菜",
-                                "img": require("../assets/logo.png"),
-                                "status": 1,
-                                "price": 28,
-                                "specs": [
-                                    {
-                                        "name": "小份",
-                                        "img": require("../assets/logo.png"),
-                                        "details": "小份回锅肉适合一个人",
-                                        "unit": "份",
-                                        "price": 28,
-                                        "stock": 9999
-                                    },{
-                                        "name": "大份",
-                                        "img": "/sss/xx/xd",
-                                        "details": "满满一盘回锅肉",
-                                        "unit": "份",
-                                        "price": 48,
-                                        "stock": 9999
-                                    }
-                                ]
-                            },
-                            {
-                                "id": "12",
-                                "name": "回锅肉2",
-                                "details": "美味的回锅肉,地道重庆菜",
-                                "img": require("../assets/logo.png"),
-                                "status": 1,
-                                "price": 28,
-                                "specs": [
-                                    {
-                                        "name": "小份",
-                                        "img": "/sss/xx/xd",
-                                        "details": "小份回锅肉适合一个人",
-                                        "unit": "份",
-                                        "price": 28,
-                                        "stock": 9999
-                                    },{
-                                        "name": "大份",
-                                        "img": "/sss/xx/xd",
-                                        "details": "满满一盘回锅肉",
-                                        "unit": "份",
-                                        "price": 48,
-                                        "stock": 9999
-                                    }
-                                ]
-                            },
-                            {
-                                "id": "13",
-                                "name": "回锅肉3",
-                                "details": "美味的回锅肉,地道重庆菜",
-                                "img": require("../assets/logo.png"),
-                                "status": 1,
-                                "price": 28,
-                                "specs": [
-                                    {
-                                        "name": "小份",
-                                        "img": "/sss/xx/xd",
-                                        "details": "小份回锅肉适合一个人",
-                                        "unit": "份",
-                                        "price": 28,
-                                        "stock": 9999
-                                    },{
-                                        "name": "大份",
-                                        "img": "/sss/xx/xd",
-                                        "details": "满满一盘回锅肉",
-                                        "unit": "份",
-                                        "price": 48,
-                                        "stock": 9999
-                                    }
-                                ]
-                            },
-                            {
-                                "id": "14",
-                                "name": "回锅肉4",
-                                "details": "美味的回锅肉,地道重庆菜",
-                                "img": require("../assets/logo.png"),
-                                "status": 1,
-                                "price": 28,
-                                "specs": [
-                                    {
-                                        "name": "小份",
-                                        "img": "/sss/xx/xd",
-                                        "details": "小份回锅肉适合一个人",
-                                        "unit": "份",
-                                        "price": 28,
-                                        "stock": 9999
-                                    },{
-                                        "name": "大份",
-                                        "img": "/sss/xx/xd",
-                                        "details": "满满一盘回锅肉",
-                                        "unit": "份",
-                                        "price": 48,
-                                        "stock": 9999
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "class": "汤",
-                        "class_id": "2",
-                        "items": [
-                            {
-                                "id": "21",
-                                "name": "鸡蛋汤1",
-                                "details": "美味的回锅肉,地道重庆菜",
-                                "img": require("../assets/logo.png"),
-                                "status": 1,
-                                "price": 28,
-                                "specs": [
-                                    {
-                                        "name": "小份",
-                                        "img": "/sss/xx/xd",
-                                        "details": "小份回锅肉适合一个人",
-                                        "unit": "份",
-                                        "price": 28,
-                                        "stock": 9999
-                                    }
-                                ]
-                            },
-                            /*{
-                                "id": "21",
-                                "name": "鸡蛋汤1",
-                                "details": "美味的回锅肉,地道重庆菜",
-                                "img": require("../assets/logo.png"),
-                                "status": 1,
-                                "price": 28,
-                                "specs": [
-                                    {
-                                        "name": "小份",
-                                        "img": "/sss/xx/xd",
-                                        "details": "小份回锅肉适合一个人",
-                                        "unit": "份",
-                                        "price": 28,
-                                        "stock": 9999
-                                    }
-                                ]
-                            },
-                            {
-                                "id": "21",
-                                "name": "鸡蛋汤1",
-                                "details": "美味的回锅肉,地道重庆菜",
-                                "img": require("../assets/logo.png"),
-                                "status": 1,
-                                "price": 28,
-                                "specs": [
-                                    {
-                                        "name": "小份",
-                                        "img": "/sss/xx/xd",
-                                        "details": "小份回锅肉适合一个人",
-                                        "unit": "份",
-                                        "price": 28,
-                                        "stock": 9999
-                                    }
-                                ]
-                            },
-                            {
-                                "id": "21",
-                                "name": "鸡蛋汤1",
-                                "details": "美味的回锅肉,地道重庆菜",
-                                "img": require("../assets/logo.png"),
-                                "status": 1,
-                                "price": 28,
-                                "specs": [
-                                    {
-                                        "name": "小份",
-                                        "img": "/sss/xx/xd",
-                                        "details": "小份回锅肉适合一个人",
-                                        "unit": "份",
-                                        "price": 28,
-                                        "stock": 9999
-                                    }
-                                ]
-                            },
-                            {
-                                "id": "21",
-                                "name": "鸡蛋汤1",
-                                "details": "美味的回锅肉,地道重庆菜",
-                                "img": require("../assets/logo.png"),
-                                "status": 1,
-                                "price": 28,
-                                "specs": [
-                                    {
-                                        "name": "小份",
-                                        "img": "/sss/xx/xd",
-                                        "details": "小份回锅肉适合一个人",
-                                        "unit": "份",
-                                        "price": 28,
-                                        "stock": 9999
-                                    }
-                                ]
-                            },*/
-                        ]
-                    }
-                ],
+                menuList: [],
+                menuContentList: [],
                 buyCardList: [
                     {
                         "id": "sfasdf",
@@ -371,7 +109,7 @@
                     details: "",
                     img: "",
                     price: "",
-                    specsName: "",
+                    item_spec_name: "",
                     specs:[
                         {
                             name: "",
@@ -393,7 +131,7 @@
                             number: number,
                             ...item
                         };
-                        if (item.id === val.class_id) {
+                        if (item.class_id === val.class_id) {
                             number = number + val.number;
                             arr = {
                                 number: number,
@@ -436,14 +174,9 @@
             }
         },
         mounted() {
-            let doc = document.getElementsByClassName("order-content");
-            for(let i =0;i < doc.length; i++) {
-                this.scrollList[i] = doc[i].offsetTop;
-            }
-            this.$nextTick(function () {
-                let scrollDiv = document.getElementsByClassName("order-right");
-                scrollDiv[0].addEventListener('scroll', this.onScroll)
-            })
+            sessionStorage.setItem("tableId", 1);
+            this.menuListApi();
+            this.carList();
         },
         methods:{
             onChangeMenu(index) {
@@ -463,21 +196,59 @@
                 });
             },
             chooseGoods(item, index){
+                console.log("item", item)
                 this.formGoods = {
-                    specsName: "",
+                    item_spec_name: "",
+                    item_id: item.id,
                     ...item
                 };
                 this.showDetail = true;
             },
             chooseSpecification(item, index) {
-                this.formGoods.specsName = item.name;
+                this.formGoods.item_spec_name = item.name;
                 this.formGoods.price = item.price;
                 this.formGoods.details = item.details;
-                this.formGoods.img = item.img;
+                this.formGoods.img = item.img ? item.img : this.formGoods.img;
             },
-            onSubmit() {
-                if (this.formGoods.specsName) {
-                    console.log("选好了");
+
+            // 获取菜单
+           async menuListApi() {
+                const res = await menuListApi({});
+                if (res) {
+                    this.menuList = res;
+                    this.menuContentList = res;
+                }
+               this.$nextTick(function () {
+               let doc = document.getElementsByClassName("order-content");
+               for(let i =0;i < doc.length; i++) {
+                   this.scrollList[i] = doc[i].offsetTop;
+               }
+                   let scrollDiv = document.getElementsByClassName("order-right");
+                   scrollDiv[0].addEventListener('scroll', this.onScroll)
+               })
+            },
+            // 获取购物车
+            async carList() {
+                const res = carList({
+                    table_id: sessionStorage.tableId
+                });
+                if (res) {
+                    // this.buyCardList = res;
+                }
+            },
+            async onSubmit() {
+                if (this.formGoods.item_spec_name) {
+                    this.formGoods.number = 1;
+                    const res = await submitCar({
+                        table_id: sessionStorage.tableId,
+                        item_id: this.formGoods.item_id,
+                        item_spec_name: this.formGoods.item_spec_name,
+                        number: this.formGoods.number
+                    })
+                    if (res) {
+                        this.showDetail = false;
+                        console.log("选好了");
+                    }
                 }
             }
         }

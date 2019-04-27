@@ -16,8 +16,8 @@
                     <div class="menu" :class="{'menu-active': activeTab === 'order'}" @click="topTabChange('order')">
                         点餐
                     </div>
-                    <div class="menu" :class="{'menu-active': activeTab === 'haveorder'}"
-                         @click="topTabChange('haveorder')">已点菜单
+                    <div class="menu" :class="{'menu-active': activeTab === 'haveOrder'}"
+                         @click="topTabChange('haveOrder')">已点菜单
                     </div>
                 </div>
                 <router-view/>
@@ -43,6 +43,10 @@
                     }
                 ]
             }
+        },
+        mounted() {
+            console.log("this.$route.params", this.$route)
+            this.activeTab = this.$route.name
         },
         methods: {
             onHeadLeft() {
