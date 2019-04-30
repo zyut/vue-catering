@@ -3,7 +3,7 @@ import Vue from "vue";
 import { Loading } from "element-ui";
 
 // const baseUrl = "http://lyp256.cn";
-const baseUrl = "/api/";
+const baseUrl = "/api";
 
 export default {
     async get (urlVal = "", data = {}, loading = true) {

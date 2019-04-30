@@ -64,23 +64,23 @@
                 buyCardList: [
                     {
                         "id": "sfasdf",
-                        "class_id": 1,
-                        "item_id": "11",
+                        "class_id": "5cbf00dc8e1dc737559dcf84",
+                        "menu_id": "5cbf03288e1dc737559dcf8b",
                         "img": require("../assets/logo.png"),
-                        "name": "回锅肉",
-                        "spec": "小份",
-                        "price": 28,
-                        "number": 3
+                        "name": "红烧猪蹄",
+                        "spec_name": "麻辣",
+                        "price": 58,
+                        "number": 2
                     },
                     {
                         "id": "sfasdf",
-                        "class_id": 1,
-                        "item_id": "11",
+                        "class_id": "5cbf00dc8e1dc737559dcf84",
+                        "menu_id": "5cbf04f18e1dc737559dcf8c",
                         "img": require("../assets/logo.png"),
-                        "name": "回锅肉",
-                        "spec": "大份",
-                        "price": 28,
-                        "number": 3
+                        "name": "红烧猪蹄",
+                        "spec_name": "草鱼",
+                        "price": 78,
+                        "number": 1
                     },
                     {
                         "id": "sfasdf",
@@ -154,7 +154,7 @@
                                 number: number,
                                 ...items
                             };
-                            if (items.id === val.item_id) {
+                            if (items.id === val.menu_id) {
                                 number = number + val.number;
                                 obj = {
                                     number: number,
@@ -196,10 +196,9 @@
                 });
             },
             chooseGoods(item, index){
-                console.log("item", item)
                 this.formGoods = {
                     item_spec_name: "",
-                    item_id: item.id,
+                    menu_id: item.id,
                     ...item
                 };
                 this.showDetail = true;

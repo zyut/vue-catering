@@ -2,24 +2,30 @@
     <div class="have-order">
         <van-collapse v-model="activeName" accordion>
             <van-collapse-item title="购物车" name="1">
-                <div class="car-box">
-                    <div class="title">菜品名</div>
-                    <div class="price">￥12</div>
-                    <div class="number"><van-stepper/></div>
+                <div class="car-box"
+                     v-for="(item, index) in carList"
+                     :key="index">
+                    <div class="title">{{item.name}} ({{item.spec_name}})</div>
+                    <div class="price">￥{{item.price}}</div>
+                    <div class="number">
+                        <van-stepper v-model="item.number"/>
+                    </div>
                 </div>
                 <div class="order-box">
-                    <div class="all-price">￥12</div>
+                    <div class="all-price">￥{{carAllPrice}}</div>
                     <van-button type="primary" size="mini">下单</van-button>
                 </div>
             </van-collapse-item>
             <van-collapse-item title="已下单" name="2">
-                <div class="car-box">
-                    <div class="title">菜品名</div>
-                    <div class="price">￥12</div>
-                    <div class="number">x 2</div>
+                <div class="car-box"
+                     v-for="(item, index) in orderList"
+                     :key="index">
+                    <div class="title">{{item.name}} ({{item.spec_name}})</div>
+                    <div class="price">￥{{item.price}}</div>
+                    <div class="number">x {{item.number}}</div>
                 </div>
                 <div class="order-box">
-                    <div class="all-price">￥12</div>
+                    <div class="all-price">￥{{orderAllPrice}}</div>
                     <van-button type="primary" size="mini">结账</van-button>
                 </div>
             </van-collapse-item>
@@ -32,8 +38,52 @@
         name: "HaveOrder",
         data(){
             return{
-                activeName: ""
+                activeName: "",
+                carList: [
+                    {
+                        "id": "sfasdf",
+                        "class_id": "5cbf00dc8e1dc737559dcf84",
+                        "menu_id": "5cbf03288e1dc737559dcf8b",
+                        "img": require("../assets/logo.png"),
+                        "name": "红烧猪蹄",
+                        "spec_name": "麻辣",
+                        "price": 58,
+                        "number": 2
+                    },
+                    {
+                        "id": "sfasdf",
+                        "class_id": "5cbf00dc8e1dc737559dcf84",
+                        "menu_id": "5cbf04f18e1dc737559dcf8c",
+                        "img": require("../assets/logo.png"),
+                        "name": "红烧猪蹄",
+                        "spec_name": "草鱼",
+                        "price": 78,
+                        "number": 1
+                    }
+                ],
+                orderList: [
+                    {
+                        "id": "sfasdf",
+                        "class_id": "5cbf00dc8e1dc737559dcf84",
+                        "menu_id": "5cbf03288e1dc737559dcf8b",
+                        "img": require("../assets/logo.png"),
+                        "name": "红烧猪蹄",
+                        "spec_name": "麻辣",
+                        "price": 58,
+                        "number": 1
+                    }
+                ],
+                carAllPrice: 0,
+                orderAllPrice: 0
             }
+        },
+        mounted() {
+            this.carList.forEach(item => {
+                this.carAllPrice = this.carAllPrice + item.price;
+            });
+            this.orderList.forEach(item => {
+                this.orderAllPrice = this.orderAllPrice + item.price;
+            })
         }
     }
 </script>
