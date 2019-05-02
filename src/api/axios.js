@@ -39,7 +39,7 @@ export default {
                 message: "连接服务器失败",
                 duration: 2000
             });
-            throw new Error(error);
+            throw new Error(err);
         }
     },
     async post (urlVal = "", data = {}, loading = true) {
@@ -76,7 +76,7 @@ export default {
                 message: "连接服务器失败",
                 duration: 2000
             });
-            throw new Error(error);
+            throw new Error(err);
         }
     }
 }

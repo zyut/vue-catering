@@ -61,48 +61,7 @@
                 scrollList: [],
                 menuList: [],
                 menuContentList: [],
-                buyCardList: [
-                    {
-                        "id": "sfasdf",
-                        "class_id": "5cbf00dc8e1dc737559dcf84",
-                        "menu_id": "5cbf03288e1dc737559dcf8b",
-                        "img": require("../assets/logo.png"),
-                        "name": "红烧猪蹄",
-                        "spec_name": "麻辣",
-                        "price": 58,
-                        "number": 2
-                    },
-                    {
-                        "id": "sfasdf",
-                        "class_id": "5cbf00dc8e1dc737559dcf84",
-                        "menu_id": "5cbf04f18e1dc737559dcf8c",
-                        "img": require("../assets/logo.png"),
-                        "name": "红烧猪蹄",
-                        "spec_name": "草鱼",
-                        "price": 78,
-                        "number": 1
-                    },
-                    {
-                        "id": "sfasdf",
-                        "class_id": 1,
-                        "item_id": "12",
-                        "img": require("../assets/logo.png"),
-                        "name": "回锅肉",
-                        "spec": "大份",
-                        "price": 28,
-                        "number": 3
-                    },
-                    {
-                        "id": "sfasdf",
-                        "class_id": 2,
-                        "item_id": "21",
-                        "img": require("../assets/logo.png"),
-                        "name": "回锅肉",
-                        "spec": "大份",
-                        "price": 28,
-                        "number": 3
-                    }
-                ],
+                buyCardList: [],
                 formGoods: {
                     item_id: "",
                     name: "",
@@ -123,6 +82,9 @@
         },
         computed:{
             menuleft:function() {
+                if (!this.menuList.length || !this.buyCardList.length) {
+                    return;
+                }
                 let array = [];
                 array = this.menuList.map((item, index) => {
                     let arr, number = null;
@@ -144,6 +106,9 @@
                 return array;
             },
             menuRight: function () {
+                if (!this.menuContentList.length || !this.buyCardList.length) {
+                    return;
+                }
                 let array = [];
                 array = this.menuContentList.map((item, index) => {
                     let arr,obj;
@@ -174,7 +139,7 @@
             }
         },
         mounted() {
-            sessionStorage.setItem("tableId", 1);
+            sessionStorage.setItem("tableId", "5cc828588e71a13938e3efc8");
             this.menuListApi();
             this.carList();
         },
@@ -216,23 +181,23 @@
                 if (res) {
                     this.menuList = res;
                     this.menuContentList = res;
+                    this.$nextTick(function () {
+                        let doc = document.getElementsByClassName("order-content");
+                        for(let i =0;i < doc.length; i++) {
+                            this.scrollList[i] = doc[i].offsetTop;
+                        }
+                        let scrollDiv = document.getElementsByClassName("order-right");
+                        scrollDiv[0].addEventListener('scroll', this.onScroll)
+                    })
                 }
-               this.$nextTick(function () {
-               let doc = document.getElementsByClassName("order-content");
-               for(let i =0;i < doc.length; i++) {
-                   this.scrollList[i] = doc[i].offsetTop;
-               }
-                   let scrollDiv = document.getElementsByClassName("order-right");
-                   scrollDiv[0].addEventListener('scroll', this.onScroll)
-               })
             },
             // 获取购物车
             async carList() {
-                const res = carList({
+                const res = await carList({
                     table_id: sessionStorage.tableId
                 });
                 if (res) {
-                    // this.buyCardList = res;
+                    this.buyCardList = res;
                 }
             },
             async onSubmit() {
@@ -240,13 +205,13 @@
                     this.formGoods.number = 1;
                     const res = await submitCar({
                         table_id: sessionStorage.tableId,
-                        item_id: this.formGoods.item_id,
-                        item_spec_name: this.formGoods.item_spec_name,
+                        menu_id: this.formGoods.menu_id,
+                        menu_spec_name: this.formGoods.item_spec_name,
                         number: this.formGoods.number
                     })
                     if (res) {
                         this.showDetail = false;
-                        console.log("选好了");
+                        this.carList();
                     }
                 }
             }

@@ -45,7 +45,6 @@
             }
         },
         mounted() {
-            console.log("this.$route.params", this.$route)
             this.activeTab = this.$route.name
         },
         methods: {

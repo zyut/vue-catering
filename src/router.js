@@ -21,8 +21,13 @@ export default new Router({
           name: 'haveOrder',
           component: () => import(/* webpackChunkName: "about" */ './views/HaveOrder.vue')
         }
-      ]
+      ],
     },
+      {
+          path: '/admin',
+          name: 'admin',
+          component: () => import(/* webpackChunkName: "about" */ './views/Admin.vue')
+      },
       {
         path: '/',
         redirect: '/order'

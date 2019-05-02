@@ -8,7 +8,9 @@
                     <div class="title">{{item.name}} ({{item.spec_name}})</div>
                     <div class="price">￥{{item.price}}</div>
                     <div class="number">
-                        <van-stepper v-model="item.number"/>
+                        <van-stepper v-model="item.number" :min="0"
+                                     @plus="operateCar(item, 1)"
+                                     @minus="operateCar(item, -1)"/>
                     </div>
                 </div>
                 <div class="order-box">
@@ -34,11 +36,13 @@
 </template>
 
 <script>
+    import { carList, submitCar } from "../api/getData";
+
     export default {
         name: "HaveOrder",
         data(){
             return{
-                activeName: "",
+                activeName: "1",
                 carList: [
                     {
                         "id": "sfasdf",
@@ -78,12 +82,36 @@
             }
         },
         mounted() {
-            this.carList.forEach(item => {
-                this.carAllPrice = this.carAllPrice + item.price;
-            });
+            this.carListFun();
             this.orderList.forEach(item => {
                 this.orderAllPrice = this.orderAllPrice + item.price;
             })
+        },
+        methods: {
+            // 获取购物车
+            async carListFun() {
+                const res = await carList({
+                    table_id: sessionStorage.tableId
+                });
+                if (res) {
+                    this.carList = res;
+                    this.carList.forEach(item => {
+                        this.carAllPrice = this.carAllPrice + item.price;
+                    });
+                }
+            },
+            // 操作购物车
+            async operateCar(item, number) {
+                const res = await submitCar({
+                    table_id: sessionStorage.tableId,
+                    menu_id: item.menu_id,
+                    menu_spec_name: item.spec_name,
+                    number: number
+                });
+                if (res) {
+                    this.carListFun();
+                }
+            }
         }
     }
 </script>
